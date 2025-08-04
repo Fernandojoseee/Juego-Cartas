@@ -1,0 +1,243 @@
+/* --- Estilos Generales y Fondo --- */
+:root {
+    --fondo-oscuro: #1a0303;
+    --rojo-principal: #e53935;
+    --naranja-acento: #f57c00;
+    --amarillo-brillante: #ffb300;
+    --texto-claro: #ffffff;
+    --sombra-resplandor: #f57c00a1;
+}
+
+body {
+    font-family: 'Russo One', sans-serif;
+    background: linear-gradient(-45deg, #2a1212, #1a0303, #d32f2f);
+    background-size: 400% 400%;
+    animation: fireGradient 15s ease infinite;
+    color: var(--texto-claro);
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+    overflow-x: hidden;
+}
+
+@keyframes fireGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.hidden { display: none !important; }
+
+/* --- Pantalla de Inicio (Sin cambios) --- */
+#start-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 90vh;
+}
+
+.game-title {
+    font-size: clamp(3rem, 10vw, 6.5rem);
+    color: var(--texto-claro);
+    text-shadow: 0 0 10px var(--texto-claro), 0 0 20px var(--naranja-acento), 0 0 35px var(--rojo-principal);
+    letter-spacing: 4px;
+    margin: 0;
+}
+
+.subtitle {
+    font-size: clamp(1rem, 4vw, 1.5rem);
+    color: var(--amarillo-brillante);
+    margin-top: -15px;
+    letter-spacing: 3px;
+    font-weight: normal;
+}
+
+.difficulty-selector {
+    margin: 40px 0;
+    background: rgba(0,0,0,0.4);
+    padding: 15px 25px;
+    border-radius: 15px;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.difficulty-selector h3 {
+    margin: 0 0 15px 0;
+    font-weight: normal;
+}
+
+.difficulty-btn {
+    font-family: 'Russo One', sans-serif;
+    font-size: 1rem;
+    padding: 10px 22px;
+    margin: 0 5px;
+    border: 2px solid var(--naranja-acento);
+    background-color: transparent;
+    color: var(--naranja-acento);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.difficulty-btn.active, .difficulty-btn:hover {
+    background-color: var(--naranja-acento);
+    color: var(--fondo-oscuro);
+    transform: translateY(-2px);
+}
+
+#start-button {
+    font-family: 'Russo One', sans-serif;
+    font-size: 1.5rem;
+    padding: 15px 45px;
+    background-color: var(--amarillo-brillante);
+    color: var(--fondo-oscuro);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+#start-button:hover {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+}
+
+/* --- Tablero y Cartas --- */
+#game-header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 1.5rem;
+    margin: 0 auto 20px auto;
+    max-width: 900px;
+    background: rgba(0,0,0,0.5);
+    padding: 12px;
+    border-radius: 12px;
+}
+
+#game-board {
+    display: grid;
+    gap: 15px;
+    max-width: 900px;
+    margin: 0 auto;
+    perspective: 1200px;
+}
+
+/* ===== INICIO DE CAMBIOS IMPORTANTES ===== */
+
+.card {
+    /* 1. CAMBIO CLAVE: Ajustamos la proporción de la carta para que sea más ancha, 
+       como una foto. Esto minimiza el recorte vertical en las imágenes de coches. */
+    aspect-ratio: 4 / 3;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+    cursor: pointer;
+}
+
+.card.flipped, .card.matched {
+    transform: rotateY(180deg);
+}
+
+.card.matched {
+    cursor: default;
+    opacity: 0.6;
+    transition: opacity 0.5s, transform 0.6s;
+}
+
+.card-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+}
+
+.card-front {
+    transform: rotateY(180deg);
+}
+
+.card-face img {
+    width: 100%;
+    height: 100%;
+    display: block;
+
+    /* 2. CAMBIO CLAVE: Volvemos a 'cover'. Esto rellena la carta completamente. 
+       Como la carta ahora es más ancha, el recorte es mínimo y el resultado es óptimo. */
+    object-fit: cover;
+    object-position: center; /* Se asegura de centrar la imagen antes de recortar */
+
+    /* 3. El borde se aplica directamente a la imagen para un look más limpio. */
+    border: 3px solid #d49a59;
+    box-sizing: border-box;
+    border-radius: 10px;
+}
+
+/* 4. Estilo específico para el reverso (el logo) para que SÍ se vea completo */
+.card-back {
+    background-color: #1c1c1c; /* Fondo para la parte de atrás */
+}
+.card-back img {
+    object-fit: contain; /* Asegura que el logo nunca se recorte */
+    padding: 10px; /* Le da un poco de aire al logo */
+    border: 3px solid #b4864c;
+}
+
+/* ===== FIN DE CAMBIOS IMPORTANTES ===== */
+
+
+/* --- Modal de Resultados --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.88);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: var(--fondo-oscuro);
+    padding: 30px 40px;
+    border-radius: 15px;
+    border: 2px solid var(--naranja-acento);
+    box-shadow: 0 0 30px var(--sombra-resplandor);
+    text-align: center;
+}
+
+#modal-title {
+    font-size: 2.5rem;
+    color: var(--amarillo-brillante);
+    text-shadow: 0 0 10px var(--naranja-acento);
+}
+
+#modal-image {
+    max-width: 300px;
+    margin: 20px auto;
+    display: block;
+    border-radius: 10px;
+}
+
+#restart-button {
+    font-family: 'Russo One', sans-serif;
+    font-size: 1.2rem;
+    padding: 12px 25px;
+    cursor: pointer;
+    background-color: var(--naranja-acento);
+    color: var(--fondo-oscuro);
+    border: none;
+    border-radius: 8px;
+    transition: transform 0.2s ease;
+}
+
+#restart-button:hover {
+    transform: scale(1.05);
+}

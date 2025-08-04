@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carros de Leyenda - Memory Challenge</title>
+    <link rel="stylesheet" href="style.css"> 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Pantalla de Inicio -->
+    <div id="start-screen">
+        <h1 class="game-title">CARROS DE LEYENDA</h1>
+        <p class="subtitle">MEMORY CHALLENGE</p>
+        
+        <div class="difficulty-selector">
+            <h3>Elige la Dificultad:</h3>
+            <button class="difficulty-btn" data-difficulty="easy">Fácil</button>
+            <button class="difficulty-btn active" data-difficulty="medium">Intermedio</button>
+            <button class="difficulty-btn" data-difficulty="hard">Difícil</button>
+        </div>
+        
+        <button id="start-button">INICIAR JUEGO</button>
+    </div>
+
+    <!-- Contenedor Principal del Juego (Oculto al inicio) -->
+    <main id="game-container" class="hidden">
+        <header id="game-header">
+            <div class="stat">Tiempo: <span id="timer">60</span>s</div>
+            <div class="stat">Pares: <span id="pairs-found">0</span> / <span id="total-pairs">8</span></div>
+        </header>
+        <div id="game-board">
+            <!-- Las cartas se generan aquí con JavaScript -->
+        </div>
+    </main>
+    
+    <!-- Modal para Resultados -->
+    <div id="result-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h2 id="modal-title">¡RESULTADO!</h2>
+            <img id="modal-image" src="" alt="Resultado del juego">
+            <button id="restart-button">VOLVER AL INICIO</button>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
